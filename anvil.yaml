@@ -1,9 +1,13 @@
 allow_embedding: false
-name: Custom HTML 6
-package_name: Custom_HTML_6
+name: CSV to XML converter
+package_name: CSV_to_XML_converter
 runtime_options:
   client_version: '3'
   server_spec: {base: python310-minimal}
   server_version: python3-sandbox
   version: 2
-services: []
+services:
+- client_config: {}
+  server_config: {}
+  source: /runtime/services/tables.yml
+startup_form: Form1
