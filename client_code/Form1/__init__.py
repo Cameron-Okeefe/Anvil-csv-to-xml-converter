@@ -27,3 +27,6 @@ class Form1(Form1Template):
          self.link_1.url = xml_file  # Set BlobMedia directly
          self.link_1.text = "Download XML"  # Show a proper link name
          self.link_1.visible = True  # Show the link
+    else:
+        alert("Must upload a CSV file first")
+
