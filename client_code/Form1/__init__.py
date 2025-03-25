@@ -16,17 +16,17 @@ class Form1(Form1Template):
     if file is not None:
             csv_data = file.get_bytes().decode("utf-8")  # Read file as text
             self.data_dict = anvil.server.call('parse_csv', csv_data)  # Process CSV
-            self.text_area_1.text = "\n".join([str(row) for row in self.data_dict])  # Show each row
+            self.txt_area_1.text = "\n".join([str(row) for row in self.data_dict])  # Show each row
 
   def button_1_click(self, **event_args):
     """This method is called when the button is clicked"""
-    """Runs when 'Convert to XML' is clicked."""
+    """Runs when the 'Convert to XML' button is clicked."""
     if self.data_dict:
        xml_file = anvil.server.call('convert_to_xml', self.data_dict)
        if xml_file:
          self.link_1.url = xml_file  # Set BlobMedia directly
          self.link_1.text = "Download XML"  # Show a proper link name
-         self.link_1.visible = True  # Show the link
+         self.link_1.visible = True  # un-hides the link
     else:
-        alert("Must upload a CSV file first")
+        alert("You need to upload a CSV file first")
 
