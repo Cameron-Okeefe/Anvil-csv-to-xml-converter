@@ -12,7 +12,7 @@ class Form1(Form1Template):
 
   def file_loader_1_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
-    """Runs when a CSV file is uploaded."""
+    """Runs when a CSV file is uploaded throught the file uploader."""
     if file is not None:
             csv_data = file.get_bytes().decode("utf-8")  # Read file as text
             self.data_dict = anvil.server.call('parse_csv', csv_data)  # Process CSV
@@ -25,8 +25,8 @@ class Form1(Form1Template):
        xml_file = anvil.server.call('convert_to_xml', self.data_dict)
        if xml_file:
          self.link_1.url = xml_file  # Set BlobMedia directly
-         self.link_1.text = "Download XML"  # Show a proper link name
+         self.link_1.text = "Download XML File"  # Show a proper link name
          self.link_1.visible = True  # un-hides the link
     else:
-        alert("You need to upload a CSV file first")
+        alert("You need to upload a CSV file.")
 

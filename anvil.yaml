@@ -1,6 +1,6 @@
 allow_embedding: false
-name: CSV to XML converter
-package_name: CSV_to_XML_converter
+name: CSV to XML converter by Cameron O'Keefe
+package_name: CSV_to_XML_converter_by_Cameron_O_Keefe
 runtime_options:
   client_version: '3'
   server_spec: {base: python310-minimal}
