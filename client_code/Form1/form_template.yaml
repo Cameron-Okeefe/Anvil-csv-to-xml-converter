@@ -6,7 +6,7 @@ components:
 - event_bindings: {change: file_loader_1_change}
   layout_properties: {grid_position: 'JRTGZH,KPJZRV'}
   name: file_loader_1
-  properties: {}
+  properties: {align: left, bold: false, text: Load CSV File}
   type: FileLoader
 - layout_properties: {grid_position: 'ZJWUBZ,XELIGS'}
   name: txt_area_1
@@ -15,12 +15,12 @@ components:
 - event_bindings: {click: button_1_click}
   layout_properties: {grid_position: 'ICUSNC,VNEVVD'}
   name: button_1
-  properties: {text: Convert to XML}
+  properties: {align: left, text: Convert to XML}
   type: Button
 - event_bindings: {click: link_1_click}
   layout_properties: {grid_position: 'WWOFGL,LVYYJJ'}
   name: link_1
-  properties: {align: center, text: Download XML, visible: false}
+  properties: {align: left, text: Save XML file, visible: false}
   type: Link
 container: {type: ColumnPanel}
 is_package: true

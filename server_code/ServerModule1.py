@@ -16,10 +16,10 @@ def convert_to_xml(data_list):
     root = ET.Element("root")  # Create root XML tag
 
     for row in data_list:
-        item = ET.SubElement(root, "record")
+        item = ET.SubElement(root, "record") 
         for key, value in row.items():
-            child = ET.SubElement(item, key)
-            child.text = value if value else ""  # Handle empty values
+            child = ET.SubElement(item, key) #  
+            child.text = value if value else ""  #Adds an empty value in the place where there are no values
 
     xml_data = ET.tostring(root, encoding='utf-8').decode("utf-8")
 
