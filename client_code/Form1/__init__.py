@@ -15,35 +15,45 @@ class AnimalData: #Define a class to handle the animal data
         self.Note_2 = Note_2
         self.Note_2_date = Note_2_date
 
-class Form1(Form1Template):
-  def __init__(self, **properties):
-    # Set Form properties and Data Bindings.
-    self.init_components(**properties)
-    self.data_dict = {}  # Store CSV data
-    # Any code you write here will run before the form opens.
+    def file_loader_1_change(self, file, **event_args):
+        """This method is called when a new file is loaded into this FileLoader"""
+        """Runs when a CSV file is uploaded through the file uploader."""
+        if file.name.endswith('.csv'):  # Checks if the file uploaded is a CSV
+            print("CSV File Uploaded")
+            self.uploaded_CSV = True
+            csvData = file.get_bytes().decode("utf-8")  # Keep it as a single string
+            self.dataXML = anvil.server.call('parse_csv', csvData)  # Sending a string
+            animal_List = []
+            animalNumber = 0
+            for line in csvData.splitlines()[1:]:  # Split into lines, skipping the header
+                columns = line.split(",")
+                if len(columns) == 10:  # Check if the row has 10 columns
+                    Name, Species, Age, Sex, Source_name, Source_address, Note_1, Note_1_date, Note_2, Note_2_date = columns
+                    animal = AnimalData(Name, Species, Age, Sex, Source_name, Source_address, Note_1, Note_1_date, Note_2, Note_2_date)
+                    animal_List.append(animal)
+                else:
+                    print(f"Skipping row with incorrect number of columns: {line}")
+            displayText = ""
+            for animal in animal_List:
+                animalNumber += 1
+                displayText = f"{displayText}Animal {animalNumber} ({animal.Name})\nspecies: {animal.Species}  age: {animal.Age}  sex: {animal.Sex}\nsource: {animal.Source_name}, {animal.Source_address}\nnote ({animal.Note_1_date}): {animal.Note_1}\nnote ({animal.Note_2_date}): {animal.Note_2}\n\n"
+            self.txt_area_1.text = displayText
 
-  def file_loader_1_change(self, file, **event_args):
-    """This method is called when a new file is loaded into this FileLoader"""
-    """Runs when a CSV file is uploaded."""
-    if file is not None:
-            csv_data = file.get_bytes().decode("utf-8")  # Read file as text
-            self.data_dict = anvil.server.call('parse_csv', csv_data)  # Process CSV
-            self.txt_area_1.text = "\n".join([str(row) for row in self.data_dict])  # Show each row
-            alert("CSV file uploaded") #Alerts the user that the CSV file has been uploaded
-      
-  def button_1_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    """Runs when the 'Convert to XML' button is clicked."""
-    if self.data_dict:
-       xml_file = anvil.server.call('convert_to_xml', self.data_dict)
-       if xml_file:
-         self.link_1.url = xml_file  # Set BlobMedia directly
-         self.link_1.text = "Download XML"  # Show a proper link name
-         self.link_1.visible = True  # un-hides the link
-    else:
-        alert("You need to upload a CSV file first") #Alerts the user that either the incorrect file or no file has been uploaded.
+        else:
+            print("Wrong file type")
+            alert("Incorrect file type. Please make sure a CSV file is uploaded.")
 
-  def link_1_click(self, **event_args):
-    """This method is called when the link is clicked"""
-    alert("XML file converted and downloaded") #Alerts the user that the file has been downloaded
-
+ 
+    def button_1_click(self, **event_args):
+      """This method is called when the 'Convert to XML' button is clicked."""
+      if self.dataXML:  # Ensure dataXML is available
+          xml_file = anvil.server.call('convert_to_xml', self.dataXML)  # Get the BlobMedia object
+          
+          if xml_file:  # Check if conversion was successful
+              self.link_1.url = xml_file  # Set BlobMedia directly to the link's URL
+              self.link_1.text = "Download XML File"  # Set the display text for the link
+              self.link_1.visible = True  # Make the link visible
+          else:
+              alert("Conversion failed. Please try again.")
+      else:
+          alert("You need to upload a CSV file first.")
